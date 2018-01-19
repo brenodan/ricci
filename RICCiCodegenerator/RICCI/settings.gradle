@@ -1,0 +1,1 @@
+include ':app', ':riccilib', ':commons-codec-1.10'
