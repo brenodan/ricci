@@ -63,6 +63,7 @@ public class GroupOwnerSocketHandler extends Thread {
 
         } catch (IOException e) {
             Log.e(TAG, "IOException during open ServerSockets with port 4545", e);
+            e.printStackTrace();
             pool.shutdownNow();
             throw e;
 
@@ -88,6 +89,7 @@ public class GroupOwnerSocketHandler extends Thread {
                 socket.close();
             } catch (IOException e) {
                 Log.e(TAG, "IOException during close Socket", e);
+                e.printStackTrace();
             }
             pool.shutdown();
         }
@@ -121,6 +123,7 @@ public class GroupOwnerSocketHandler extends Thread {
 
                 } catch (IOException ioe) {
                     Log.e(TAG, "IOException during close Socket", ioe);
+                    e.printStackTrace();
                 }
                 pool.shutdownNow();
                 break; //stop the while(true).
