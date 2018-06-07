@@ -22,6 +22,7 @@ import com.example.riccilib.ricci.Utils.RemoteResultsHolder;
 import com.example.riccilib.ricci.Utils.RemoteUtils;
 import com.example.riccilib.ricci.Utils.StreamingUtils;
 import com.example.riccilib.ricci.Utils.Util;
+import com.example.riccilib.ricci.constants.ErrorMessages;
 import com.example.riccilib.ricci.constants.Transfer;
 
 import static com.example.riccilib.ricci.Utils.Util.REQUEST_COPY_TRANSMISSION;
@@ -84,7 +85,7 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
         } else {
 
-            Log.d(TAG, "either ChatManager is null.");
+            Log.d(TAG, "ChatManager is null.");
 
         }
     }
@@ -175,33 +176,28 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
     public String onResolveError(int type){
 
-        String response = "error resolving the activity for the ";
-
         switch (type) {
 
             case 1:
-
-                response += "COPY";
-                break;
+                chatManager.write(ErrorMessages.errorCastingActivityCOPY.getBytes());
+                return ErrorMessages.resolveErrorCopy;
 
             case 2:
-                response += "STREAM";
-                break;
+                chatManager.write(ErrorMessages.errorCastingActivitySTREAM.getBytes());
+                return ErrorMessages.resolveErrorStream;
 
             case 3:
-                response += "STREAM_FILE";
-                break;
+                chatManager.write(ErrorMessages.errorCastingActivitySTREAM_FILE.getBytes());
+                return ErrorMessages.resolveErrorStreamFile;
 
             case 4:
-                response += "REMOTE";
-                break;
+                chatManager.write(ErrorMessages.errorCastingActivityREMOTE.getBytes());
+                return ErrorMessages.resolveErrorRemote;
 
             default:
-                break;
+                return "incorrect code";
+
         }
-
-        return response += " request";
-
     }
 
 
@@ -247,13 +243,13 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                             } else {
 
-                                Log.d(TAG, "there are no activities to resolve the COPY request");
+                                Log.d(TAG, onResolveError(1));
                                 onResolveError(1);
                             }
 
                         } else {
 
-                            Log.d(TAG, "error casting context to activity n COPY");
+                            Log.d(TAG, ErrorMessages.errorCastingActivityCOPY);
                         }
                     }
                     break;
@@ -268,13 +264,13 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                             } else {
 
-                                Log.d(TAG, "there are no activities to resolve the STREAM_FILE request");
+                                Log.d(TAG, onResolveError(3));
                                 onResolveError(3);
                             }
 
                         } else {
 
-                            Log.d(TAG, "error casting context to activity in STREAM_FILE");
+                            Log.d(TAG, ErrorMessages.errorCastingActivitySTREAM_FILE);
 
                         }
                     }
@@ -290,13 +286,13 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                             } else {
 
-                                Log.d(TAG, "there are no activities to resolve the STREAM request");
+                                Log.d(TAG, onResolveError(2));
                                 onResolveError(2);
                             }
 
                         } else {
 
-                            Log.d(TAG, "error casting context to activity in STREAM");
+                            Log.d(TAG, ErrorMessages.errorCastingActivitySTREAM);
 
                         }
                     }
@@ -312,13 +308,13 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                             } else {
 
-                                Log.d(TAG, "there are no activities to resolve the REMOTE request");
+                                Log.d(TAG, onResolveError(4));
                                 onResolveError(4);
                             }
 
                         } else {
 
-                            Log.d(TAG, "error casting context to activity in REMOTE");
+                            Log.d(TAG, ErrorMessages.errorCastingActivityREMOTE);
 
                         }
                     }
