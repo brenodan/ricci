@@ -22,6 +22,7 @@ import com.example.riccilib.ricci.Utils.RemoteUtils;
 import com.example.riccilib.ricci.Utils.StreamService;
 import com.example.riccilib.ricci.Utils.StreamingUtils;
 import com.example.riccilib.ricci.Utils.Util;
+import com.example.riccilib.ricci.constants.ErrorMessages;
 import com.example.riccilib.ricci.handlers.ReceiveRemoteHandler;
 import com.google.gson.Gson;
 
@@ -47,11 +48,11 @@ public abstract class RicciIntentService extends IntentService {
 
         String msg = intent.getStringExtra(IN_MSG);
         RemoteIntent remoteIntent = new RemoteIntent(msg);
-        Log.d("Incoming", "Handling msg: " + msg);
+        Log.d("INCOMING", "Handling msg: " + msg);
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(ACTION_RESP);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        Log.d("Incoming", "Json : " + remoteIntent.getJson());
+        Log.d("INCOMING", "Json : " + remoteIntent.getJson());
         broadcastIntent.putExtra(IN_MSG, remoteIntent.getJson());
 
         return broadcastIntent;
@@ -63,9 +64,9 @@ public abstract class RicciIntentService extends IntentService {
         RemoteIntent remoteIntent = (RemoteIntent)extras.get(OUT_MSG);
         remoteIntent.addCategory(Intent.CATEGORY_DEFAULT);
         remoteIntent.setTransferMethod(COPY);
-        System.out.println("@@ OUT MESSAGE : " + remoteIntent.getJson());
+        Log.d("OUTGOING", remoteIntent.getJson());
         remoteIntent.putExtra(OUT_MSG, remoteIntent.getJson());//add contents here
-        Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+        Log.d("OUTGOING", "Handling msg: " + remoteIntent.getJson());
 
         return remoteIntent;
     }
@@ -76,8 +77,9 @@ public abstract class RicciIntentService extends IntentService {
         RemoteIntent remoteIntent = (RemoteIntent)extras.get(OUT_COPY_MSG);
         remoteIntent.addCategory(Intent.CATEGORY_DEFAULT);
         remoteIntent.setTransferMethod(COPY_REPLY);
+        Log.d("OUTGOING", remoteIntent.getJson());
         remoteIntent.putExtra(OUT_COPY_MSG, remoteIntent.getJson());//add contents here
-        Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+        Log.d("OUTGOING", "Handling msg: " + remoteIntent.getJson());
         return remoteIntent;
     }
 
@@ -91,7 +93,7 @@ public abstract class RicciIntentService extends IntentService {
         broadcastIntent.setAction(ACTION_RESP);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtra(OUT_COPY_REPLY_MSG, json);
-        Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+        Log.d("OUTGOING", "Handling msg: " + remoteIntent.getJson());
         return broadcastIntent;
     }
 
@@ -112,13 +114,13 @@ public abstract class RicciIntentService extends IntentService {
             remoteIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, streamUtils.getIPAddress(true));
             streamUtils.streamServerHandler(data, getApplicationContext());
             broadcastIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, remoteIntent.getJson());
-            Log.d("Outgoing", "Handling msg: " + "data is not null " + remoteIntent.getJson());
+            Log.d("OUTGOING", "Handling msg: " + "data is not null " + remoteIntent.getJson());
 
         } else {
 
             remoteIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, "false");
             broadcastIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, remoteIntent.getJson());
-            Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+            Log.d("OUTGOING", "Handling msg: " + remoteIntent.getJson());
         }
 
         return broadcastIntent;
@@ -140,14 +142,14 @@ public abstract class RicciIntentService extends IntentService {
             remoteIntent.putExtra(OUT_STREAM_REPLY_MSG, streamUtils.getIPAddress(true));
             streamUtils.streamServerHandler(data, getApplicationContext());
             broadcastIntent.putExtra(OUT_STREAM_REPLY_MSG, remoteIntent.getJson());
-            Log.d("Outgoing", "Handling msg: " + "data is not null " + remoteIntent.getJson());
+            Log.d("OUTGOING", "Handling msg: " + "data is not null " + remoteIntent.getJson());
 
 
         } else {
 
             remoteIntent.putExtra(OUT_STREAM_REPLY_MSG, "false");
             broadcastIntent.putExtra(OUT_STREAM_REPLY_MSG, remoteIntent.getJson());
-            Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+            Log.d("OUTGOING", "Handling msg: " + remoteIntent.getJson());
         }
         return broadcastIntent;
     }
@@ -168,13 +170,13 @@ public abstract class RicciIntentService extends IntentService {
             remoteIntent.putExtra(OUT_REMOTE_REPLY_MSG, remoteUtils.getIPAddress(true));
             remoteUtils.remoteServerHandler(data);
             broadcastIntent.putExtra(OUT_REMOTE_REPLY_MSG, remoteIntent.getJson());
-            Log.d("Outgoing", "Handling msg: " + "data is not null " + remoteIntent.getJson());
+            Log.d("OUTGOING", "Handling msg: " + "data is not null " + remoteIntent.getJson());
 
         } else {
 
             remoteIntent.putExtra(OUT_REMOTE_REPLY_MSG, "false");
             broadcastIntent.putExtra(OUT_REMOTE_REPLY_MSG, remoteIntent.getJson());
-            Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+            Log.d("OUTGOING", "Handling msg: " + remoteIntent.getJson());
 
         }
 
@@ -278,8 +280,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - IN_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - IN_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_MSG)) {
@@ -291,8 +293,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_COPY_MSG)) {
@@ -304,8 +306,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_COPY_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_COPY_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_COPY_REPLY_MSG)) {
@@ -317,8 +319,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_COPY_REPLY_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_COPY_REPLY_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_STREAM_FILE_REPLY_MSG)) {
@@ -330,8 +332,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_STREAM_FILE_REPLY_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_STREAM_FILE_REPLY_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_STREAM_REPLY_MSG)) {
@@ -343,8 +345,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_STREAM_REPLY_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_STREAM_REPLY_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_REMOTE_REPLY_MSG)) {
@@ -356,8 +358,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_REMOTE_REPLY_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_REMOTE_REPLY_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_STREAM_FILE_CLIENT_MSG)) {
@@ -369,8 +371,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_STREAM_FILE_CLIENT_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_STREAM_FILE_CLIENT_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_STREAM_CLIENT_MSG)) {
@@ -382,8 +384,8 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_STREAM_CLIENT_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_STREAM_CLIENT_MSG");
+                e.printStackTrace();
             }
 
         } else if (intent.hasExtra(OUT_REMOTE_CLIENT_MSG)) {
@@ -395,13 +397,13 @@ public abstract class RicciIntentService extends IntentService {
 
             } catch (NullPointerException e){
 
-                Log.d(TAG, "null pointer exception - OUT_REMOTE_CLIENT_MSG");
-
+                Log.d(TAG, ErrorMessages.errorNullPointerException + " - OUT_REMOTE_CLIENT_MSG");
+                e.printStackTrace();
             }
 
         } else {
 
-            Log.d(TAG, "Does not contains extra");
+            Log.d(TAG, ErrorMessages.errorEmptyBundle);
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(ACTION_RESP);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);

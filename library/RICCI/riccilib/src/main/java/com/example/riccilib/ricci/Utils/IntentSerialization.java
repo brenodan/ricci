@@ -121,7 +121,7 @@ public class IntentSerialization {
         }
 
         Gson gson = new GsonBuilder().registerTypeAdapter(Uri.class, new UriDeserializer()).create();
-        Log.d("INTENT SERIALIZATION", "received json: " + message);
+        Log.d(TAG, "received json: " + message);
         Intent intent = gson.fromJson(message, Intent.class);
 
         return intent;
@@ -132,7 +132,7 @@ public class IntentSerialization {
     public Intent deserializeIntentGsonBundle(String message) {
 
         message = Util.jsoStringProcessing(message);
-        Log.d(this.TAG, message);
+        Log.d(TAG, message);
         String temp = "Bundle[{json=";
         String bundleContents = "";
 
@@ -146,13 +146,13 @@ public class IntentSerialization {
 
         } catch (IndexOutOfBoundsException e){
 
-            Log.d(this.TAG, "BUNDLE CONSTRUCTION : " + e.getStackTrace());
+            Log.d(TAG, "BUNDLE CONSTRUCTION : " + e.getStackTrace());
 
         }
 
         bundleContents = message.substring(begin + temp.length(), end);
         bundleContents = Util.bundleStringProcessing(bundleContents);
-        Log.d(this.TAG, bundleContents);
+        Log.d(TAG, bundleContents);
 
         try {
 
@@ -161,7 +161,7 @@ public class IntentSerialization {
 
         } catch (IndexOutOfBoundsException e) {
 
-            Log.d(this.TAG, "BUNDLE CONSTRUCTION : " + e.getStackTrace());
+            Log.d(TAG, "BUNDLE CONSTRUCTION : " + e.getStackTrace());
 
         }
 
@@ -240,8 +240,8 @@ public class IntentSerialization {
             message = message.substring(0, begin) + message.substring(end + 4, message.length());
         }
 
-        Log.d(this.TAG, "BUNDLE PROCESSING :" + message);
-        Log.d(this.TAG, "BUNDLE STRING :" + bundleString);
+        Log.d(TAG, "BUNDLE PROCESSING :" + message);
+        Log.d(TAG, "BUNDLE STRING :" + bundleString);
 
         Bundle extras = jsonStringToBundle(bundleString);
         return extras;
@@ -252,7 +252,7 @@ public class IntentSerialization {
 
         Gson gson = new GsonBuilder().registerTypeAdapter(Bundle.class, new BundleSerializer()).create();
         String json = gson.toJson(myObject);
-        Log.d(this.TAG, json);
+        Log.d(TAG, json);
         return json;
 
     }
@@ -318,7 +318,7 @@ public class IntentSerialization {
             try {
                 json.put(key, JSONObject.wrap(bundle.get(key)));
             } catch(JSONException e) {
-                Log.d(this.TAG, e.toString());
+                Log.d(TAG, e.toString());
             }
         }
 
@@ -372,8 +372,8 @@ public class IntentSerialization {
 
             in = new ObjectInputStream(bis);
             String json = (String) in.readObject();
-            Log.d(this.TAG, "RemoteIntent from ByteArray: " + inputBytes);
-            Log.d(this.TAG, "RemoteIntent from ByteArray: " + json);
+            Log.d(TAG, "RemoteIntent from ByteArray: " + inputBytes);
+            Log.d(TAG, "RemoteIntent from ByteArray: " + json);
             remoteIntent = new RemoteIntent(json);
 
         } catch (StreamCorruptedException e) {

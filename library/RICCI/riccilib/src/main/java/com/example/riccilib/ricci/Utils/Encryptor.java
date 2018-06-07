@@ -39,10 +39,9 @@ public class Encryptor {
             SecretKeySpec skeySpec = new SecretKeySpec(getKey().getBytes("UTF-8"), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
-            byte[] encrypted = cipher.doFinal(value.getBytes());
-            Log.d(TAG, "encrypted string: " + Base64.encodeBase64String(encrypted));
-
-            return Base64.encodeBase64String(encrypted);
+            String encrypted = new String (cipher.doFinal(value.getBytes()));
+            Log.d(TAG, "encrypted string: " + encrypted);
+            return encrypted;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -59,7 +58,7 @@ public class Encryptor {
             SecretKeySpec skeySpec = new SecretKeySpec(getKey().getBytes("UTF-8"), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
+            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted.getBytes()));
 
             return new String(original);
 

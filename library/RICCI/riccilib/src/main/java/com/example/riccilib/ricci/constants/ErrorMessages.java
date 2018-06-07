@@ -14,6 +14,7 @@ public class ErrorMessages {
     public static final String errorCastingActivitySTREAM_FILE = "error casting context to activity in STREAM_COPY";
     public static final String errorCastingActivityREMOTE = "error casting context to activity in REMOTE";
 
+    public static final String errorNullPointerException = "null pointer exception";
 
-
+    public static final String errorEmptyBundle = "does not contain extras";
 }

@@ -5,6 +5,9 @@ import android.content.Intent;
 import com.example.riccilib.ricci.Utils.RemoteResultsHolder;
 import static com.example.riccilib.ricci.constants.UtilityConstants.*;
 
+/**
+ * Responsible for handling the results of a remote access
+ */
 public class RemoteResultsHandler {
 
     private RemoteResultsHandler(){}

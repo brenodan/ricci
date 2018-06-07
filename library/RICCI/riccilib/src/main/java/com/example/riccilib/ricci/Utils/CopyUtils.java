@@ -11,11 +11,13 @@ import android.util.Log;
 
 public class CopyUtils {
 
+    private static final String TAG = "CopyUtils";
+
     public Intent receiveCopy(Intent intent){
 
         Bundle extras = intent.getExtras();
         String json = (String) extras.get("json");
-
+        Log.d(TAG, json);
         IntentSerialization intentSerialization = new IntentSerialization();
         extras = intentSerialization.jsonStringToBundle(json);
 
@@ -39,7 +41,7 @@ public class CopyUtils {
             String dataString = cursor.getString(index);
 
             if(dataString != null) {
-                Log.d("SEND COPY REPLY", " COLUMN NAME " + columnNames[i] + " : data string : " + dataString );
+                Log.d(TAG, "SEND COPY REPLY -- COLUMN NAME " + columnNames[i] + " : data string : " + dataString );
                 extras.putSerializable(columnNames[i], dataString);
             }
         }

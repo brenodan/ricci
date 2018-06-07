@@ -19,7 +19,7 @@ import com.example.riccilib.ricci.handlers.GroupOwnerSocketHandler;
  * and {@link GroupOwnerSocketHandler}.
  * <p></p>
  * Created by Stefano Cappa on 04/02/15, based on google code samples.
- *  Modified by Breno Cruz
+ * Modified by Breno Cruz
  */
 public class ChatWifiManager implements Runnable {
 
@@ -85,12 +85,14 @@ public class ChatWifiManager implements Runnable {
 
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
+                    e.printStackTrace();
                 }
             }
 
         } catch (IOException e) {
 
             Log.e(TAG,"Exception : " + e.toString());
+            e.printStackTrace();
 
         } finally {
 
@@ -101,7 +103,8 @@ public class ChatWifiManager implements Runnable {
 
             } catch (IOException e) {
 
-                Log.e(TAG,"Exception during close socket or isStream",  e);
+                Log.e(TAG,"Exception during close socket or iStream",  e);
+                e.printStackTrace();
             }
         }
     }
@@ -119,6 +122,7 @@ public class ChatWifiManager implements Runnable {
         } catch (IOException e) {
 
             Log.e(TAG, "Exception during write", e);
+            e.printStackTrace();
 
         }
     }
