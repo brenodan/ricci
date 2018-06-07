@@ -30,6 +30,8 @@ public class RemoteIntent extends Intent {
 
     private Transfer transferMethod;
 
+    public static final String TAG = "RemoteIntent";
+
     public String getJson() {
 
         IntentSerialization intentSerialization = new IntentSerialization();
@@ -37,7 +39,7 @@ public class RemoteIntent extends Intent {
         if(this.getExtras() != null) {
 
             this.replaceExtras(intentSerialization.prepareJsonBundle(this.getExtras()));
-            System.out.println("EXTRAS IN INTENT : " + this.getExtras());
+            Log.d(TAG, "EXTRAS IN INTENT : " + this.getExtras());
 
         }
 
@@ -70,7 +72,7 @@ public class RemoteIntent extends Intent {
         inputBytes = CompressionUtils.DecompressArray(inputBytes);
         ByteArrayInputStream bis = new ByteArrayInputStream(inputBytes);
         ObjectInput in = null;
-        Log.d("REMOTE INTENT", "check for remote intent");
+        Log.d(TAG, "check for remote intent");
 
         try {
 
@@ -79,28 +81,28 @@ public class RemoteIntent extends Intent {
 
 
 
-            Log.d("UTIL", "RemoteIntent from ByteArray: " + inputBytes);
-            Log.d("UTIL", "RemoteIntent from ByteArray: " + json);
+            Log.d(TAG,"UTIL -- RemoteIntent from ByteArray: " + inputBytes);
+            Log.d(TAG, "UTIL -- RemoteIntent from ByteArray: " + json);
 
             IntentSerialization intentSerialization = new IntentSerialization();
             Intent tempIntent;
 
             if(json.contains("Bundle[")){
-                Log.d("REMOTE INTENT", "bundle detected: " + json);
+                Log.d(TAG, "bundle detected: " + json);
                 tempIntent = intentSerialization.deserializeIntentGsonBundle(json);
 
             } else {
-                Log.d("REMOTE INTENT", "no bundle detected: " +json);
+                Log.d(TAG, "no bundle detected: " +json);
                 tempIntent = intentSerialization.deserializeIntentGsonURI(json);
             }
 
-            Log.d("REMOTE INTENT", json);
+            Log.d(TAG, json);
 
             if(json.contains("transferMethod")){
 
-                Log.d("REMOTE INTENT", "transfer method detected");
+                Log.d(TAG, "transfer method detected");
                 if(json.contains("COPY")){
-                    Log.d("REMOTE INTENT", "copy transfer method");
+                    Log.d(TAG, "copy transfer method");
                     this.setTransferMethod(COPY);
 
                 } if(json.contains("REMOTE")){
@@ -180,16 +182,16 @@ public class RemoteIntent extends Intent {
         Intent tempIntent;
 
         if(json.contains("Bundle[")){
-            Log.d("REMOTE INTENT", "bundle detected: " + json);
+            Log.d(TAG, "bundle detected: " + json);
             tempIntent = intentSerialization.deserializeIntentGsonBundle(json);
 
         } else {
-            Log.d("REMOTE INTENT", "no bundle detected: " +json);
+            Log.d(TAG, "no bundle detected: " +json);
             tempIntent = intentSerialization.deserializeIntentGsonURI(json);
 
         }
 
-        Log.d("REMOTE INTENT", json);
+        Log.d(TAG, json);
         if(json.contains("transferMethod")){
 
 

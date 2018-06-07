@@ -372,7 +372,6 @@ public class IntentSerialization {
 
             in = new ObjectInputStream(bis);
             String json = (String) in.readObject();
-            Log.d(TAG, "RemoteIntent from ByteArray: " + inputBytes);
             Log.d(TAG, "RemoteIntent from ByteArray: " + json);
             remoteIntent = new RemoteIntent(json);
 

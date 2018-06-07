@@ -22,6 +22,8 @@ import java.util.List;
 
 public final class Util {
 
+    public static final String TAG = "Util";
+
     public static final int REQUEST_COPY_TRANSMISSION = 32;
     public static final int REQUEST_STREAM_TRANSMISSION = 64;
     public static final int REQUEST_REMOTE_TRANSMISSION = 128;
@@ -60,7 +62,7 @@ public final class Util {
             //String temp1 = bundleContents.substring(0, b);
             String temp1 = bundleContents.substring(b, bundleContents.length());
 
-            System.out.println("@@ TEMP : " + temp1);
+            Log.d(TAG, temp1);
 
             param = "\"}";
             b = temp1.lastIndexOf(param);
@@ -87,13 +89,13 @@ public final class Util {
                     }
                 } catch(IndexOutOfBoundsException e){
 
-                    Log.d("Bundle Contents", "Bad Bundle String - key char not found");
+                    Log.d(TAG,"Bundle Contents -- key not found");
                 }
             }
 
         } catch (IndexOutOfBoundsException e) {
 
-            Log.d("Bundle Contents", "Bad Bundle String - key char not found");
+            Log.d(TAG, "Bundle Contents -- key not found");
 
         }
 

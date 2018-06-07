@@ -32,7 +32,7 @@ import static com.example.riccilib.ricci.Utils.Util.REQUEST_STREAM_TRANSMISSION;
 import static com.example.riccilib.ricci.constants.UtilityConstants.*;
 
 /**
- * Created by brenocruz on 2/8/17.
+ * Created by Breno Cruz on 2/8/17.
  */
 
 public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
@@ -357,7 +357,7 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                 } else {
 
-                    Log.d("Broadcast Receiver", "missing key components for remote actions");
+                    Log.d(TAG, "missing key components for remote actions");
 
                 }
 

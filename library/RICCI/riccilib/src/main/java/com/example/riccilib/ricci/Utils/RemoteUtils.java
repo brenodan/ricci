@@ -167,7 +167,7 @@ public class RemoteUtils {
 
         if(!serverIpAddress.equals("false")) {
 
-            Log.d("Broadcast Receiver", "received valid remote response");
+            Log.d(TAG, "received valid remote response");
             Intent intent = new Intent(context, BasicIntentService.class);
 
             Intent temp = HandleRemoteAssistant.analyzeRemoteAssistant(remoteAssistant);
@@ -180,7 +180,7 @@ public class RemoteUtils {
 
         } else {
 
-            Log.d("Broadcast Receiver", "received not valid remote response");
+            Log.d(TAG, "received not valid remote response");
 
         }
 

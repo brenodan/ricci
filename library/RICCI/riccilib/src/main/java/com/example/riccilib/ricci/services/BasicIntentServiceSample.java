@@ -33,6 +33,8 @@ import static com.example.riccilib.ricci.constants.UtilityConstants.*;
 public class BasicIntentServiceSample extends IntentService {
 
     public BasicIntentServiceSample(){super("BasicIntentService");}
+    public static final String TAG = "BasicIntentServiceSmp";
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -41,11 +43,11 @@ public class BasicIntentServiceSample extends IntentService {
 
             String msg = intent.getStringExtra(IN_MSG);
             RemoteIntent remoteIntent = new RemoteIntent(msg);
-            Log.d("Incoming", "Handling msg: " + msg);
+            Log.d(TAG,"INCOMING - Handling msg: " + msg);
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(ACTION_RESP);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            Log.d("Incoming", "Json : " + remoteIntent.getJson());
+            Log.d(TAG,"INCOMING - Json : " + remoteIntent.getJson());
             broadcastIntent.putExtra(IN_MSG, remoteIntent.getJson());
             sendBroadcast(broadcastIntent);
 
@@ -55,9 +57,9 @@ public class BasicIntentServiceSample extends IntentService {
             RemoteIntent remoteIntent = (RemoteIntent)extras.get(OUT_MSG);
             remoteIntent.addCategory(Intent.CATEGORY_DEFAULT);
             remoteIntent.setTransferMethod(COPY);
-            System.out.println("@@ OUT MESSAGE : " + remoteIntent.getJson());
+            Log.d(TAG, "OUTGOING" + remoteIntent.getJson());
             remoteIntent.putExtra(OUT_MSG, remoteIntent.getJson());//add contents here
-            Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+            Log.d(TAG, "OUTGOING - Handling msg: " + remoteIntent.getJson());
             sendBroadcast(remoteIntent);
 
         } else if (intent.hasExtra(OUT_COPY_MSG)) {
@@ -67,7 +69,7 @@ public class BasicIntentServiceSample extends IntentService {
             remoteIntent.addCategory(Intent.CATEGORY_DEFAULT);
             remoteIntent.setTransferMethod(COPY_REPLY);
             remoteIntent.putExtra(OUT_COPY_MSG, remoteIntent.getJson());//add contents here
-            Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+            Log.d(TAG, "OUTGOING - Handling msg: " + remoteIntent.getJson());
             sendBroadcast(remoteIntent);
 
         } else if (intent.hasExtra(OUT_COPY_REPLY_MSG)) {
@@ -80,7 +82,7 @@ public class BasicIntentServiceSample extends IntentService {
             broadcastIntent.setAction(ACTION_RESP);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
             broadcastIntent.putExtra(OUT_COPY_REPLY_MSG, json);
-            Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+            Log.d(TAG,"OUTGOING - Handling msg: " + remoteIntent.getJson());
             sendBroadcast(broadcastIntent);
 
         } else if (intent.hasExtra(OUT_STREAM_FILE_REPLY_MSG)) {
@@ -100,13 +102,13 @@ public class BasicIntentServiceSample extends IntentService {
                 remoteIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, streamUtils.getIPAddress(true));
                 streamUtils.streamServerHandler(data, getApplicationContext());
                 broadcastIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, remoteIntent.getJson());
-                Log.d("Outgoing", "Handling msg: " + "data is not null " + remoteIntent.getJson());
+                Log.d(TAG, "OUTGOING - Handling msg: data is not null " + remoteIntent.getJson());
 
             } else {
 
                 remoteIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, "false");
                 broadcastIntent.putExtra(OUT_STREAM_FILE_REPLY_MSG, remoteIntent.getJson());
-                Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+                Log.d(TAG, "OUTGOING - Handling msg: " + remoteIntent.getJson());
             }
 
             sendBroadcast(broadcastIntent);
@@ -128,14 +130,14 @@ public class BasicIntentServiceSample extends IntentService {
                 remoteIntent.putExtra(OUT_STREAM_REPLY_MSG, streamUtils.getIPAddress(true));
                 streamUtils.streamServerHandler(data, getApplicationContext());
                 broadcastIntent.putExtra(OUT_STREAM_REPLY_MSG, remoteIntent.getJson());
-                Log.d("Outgoing", "Handling msg: " + "data is not null " + remoteIntent.getJson());
+                Log.d(TAG, "OUTGOING - Handling msg: " + "data is not null " + remoteIntent.getJson());
 
 
             } else {
 
                 remoteIntent.putExtra(OUT_STREAM_REPLY_MSG, "false");
                 broadcastIntent.putExtra(OUT_STREAM_REPLY_MSG, remoteIntent.getJson());
-                Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+                Log.d(TAG,"OUTGOING - Handling msg: " + remoteIntent.getJson());
             }
 
             sendBroadcast(broadcastIntent);
@@ -157,14 +159,14 @@ public class BasicIntentServiceSample extends IntentService {
                 remoteUtils.remoteServerHandler(data);
                 broadcastIntent.putExtra(OUT_REMOTE_REPLY_MSG, remoteIntent.getJson());
 
-                Log.d("Outgoing", "Handling msg: " + "data is not null " + remoteIntent.getJson());
+                Log.d(TAG,"OUTGOING - Handling msg: " + "data is not null " + remoteIntent.getJson());
 
             } else {
 
                 remoteIntent.putExtra(OUT_REMOTE_REPLY_MSG, "false");
                 broadcastIntent.putExtra(OUT_REMOTE_REPLY_MSG, remoteIntent.getJson());
 
-                Log.d("Outgoing", "Handling msg: " + remoteIntent.getJson());
+                Log.d(TAG, "OUTGOING - Handling msg: " + remoteIntent.getJson());
             }
 
             sendBroadcast(broadcastIntent);
@@ -181,9 +183,9 @@ public class BasicIntentServiceSample extends IntentService {
                 StreamService remoteObject = streamingUtils.remoteClientHandler(serverIp);
                 Intent broadcastIntent = new Intent();
                 String extension = remoteObject.getFileExtension();
-                System.out.println("Temp file extension: " + extension);
+                Log.d(TAG, "Temp file extension: " + extension);
                 File temp = File.createTempFile("tmp", extension);
-                System.out.println("Temp file : " + temp.getAbsolutePath());
+                Log.d(TAG, "Temp file : " + temp.getAbsolutePath());
                 FileOutputStream fileOutputStream = new FileOutputStream(temp);
 
                 fileOutputStream.write(remoteObject.loadData());
@@ -212,9 +214,9 @@ public class BasicIntentServiceSample extends IntentService {
                 Intent broadcastIntent = new Intent();
 
                 String extension = remoteObject.getFileExtension();
-                System.out.println("Temp file extension: " + extension);
+                Log.d(TAG, "Temp file extension: " + extension);
                 File temp = File.createTempFile("tmp", extension);
-                System.out.println("Temp file : " + temp.getAbsolutePath());
+                Log.d(TAG, "Temp file : " + temp.getAbsolutePath());
                 FileOutputStream fileOutputStream = new FileOutputStream(temp);
                 fileOutputStream.write(remoteObject.loadData());
                 fileOutputStream.close();
@@ -249,7 +251,7 @@ public class BasicIntentServiceSample extends IntentService {
 
         } else {
 
-            System.out.println("Does not contains extra");
+            Log.d(TAG,"Does not contains extra");
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(ACTION_RESP);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
