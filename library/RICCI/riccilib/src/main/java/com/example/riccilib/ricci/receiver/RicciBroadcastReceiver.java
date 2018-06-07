@@ -172,6 +172,39 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
     }
 
+
+    public String onResolveError(int type){
+
+        String response = "error resolving the activity for the ";
+
+        switch (type) {
+
+            case 1:
+
+                response += "COPY";
+                break;
+
+            case 2:
+                response += "STREAM";
+                break;
+
+            case 3:
+                response += "STREAM_FILE";
+                break;
+
+            case 4:
+                response += "REMOTE";
+                break;
+
+            default:
+                break;
+        }
+
+        return response += " request";
+
+    }
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -208,7 +241,15 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                         if (context instanceof Activity) {
 
-                            ((Activity) context).startActivityForResult(remoteIntent, REQUEST_COPY_TRANSMISSION);
+                            if(remoteIntent.resolveActivity(context.getPackageManager()) != null) {
+
+                                ((Activity) context).startActivityForResult(remoteIntent, REQUEST_COPY_TRANSMISSION);
+
+                            } else {
+
+                                Log.d(TAG, "there are no activities to resolve the COPY request");
+                                onResolveError(1);
+                            }
 
                         } else {
 
@@ -221,7 +262,15 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                         if (context instanceof Activity) {
 
-                            ((Activity) context).startActivityForResult(remoteIntent, REQUEST_STREAM_FILE_TRANSMISSION);
+                            if(remoteIntent.resolveActivity(context.getPackageManager()) != null){
+
+                                ((Activity) context).startActivityForResult(remoteIntent, REQUEST_STREAM_FILE_TRANSMISSION);
+
+                            } else {
+
+                                Log.d(TAG, "there are no activities to resolve the STREAM_FILE request");
+                                onResolveError(3);
+                            }
 
                         } else {
 
@@ -235,7 +284,15 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                         if(context instanceof Activity) {
 
-                            ((Activity) context).startActivityForResult(remoteIntent, REQUEST_STREAM_TRANSMISSION);
+                            if(remoteIntent.resolveActivity(context.getPackageManager()) != null) {
+
+                                ((Activity) context).startActivityForResult(remoteIntent, REQUEST_STREAM_TRANSMISSION);
+
+                            } else {
+
+                                Log.d(TAG, "there are no activities to resolve the STREAM request");
+                                onResolveError(2);
+                            }
 
                         } else {
 
@@ -249,7 +306,15 @@ public abstract class RicciBroadcastReceiver extends BroadcastReceiver {
 
                         if(context instanceof Activity){
 
-                            ((Activity) context).startActivityForResult(remoteIntent, REQUEST_REMOTE_TRANSMISSION);
+                            if(remoteIntent.resolveActivity(context.getPackageManager()) != null) {
+
+                                ((Activity) context).startActivityForResult(remoteIntent, REQUEST_REMOTE_TRANSMISSION);
+
+                            } else {
+
+                                Log.d(TAG, "there are no activities to resolve the REMOTE request");
+                                onResolveError(4);
+                            }
 
                         } else {
 
