@@ -7,10 +7,12 @@ package com.example.riccilib.ricci.constants;
 public enum Transfer {
 
     COPY,
+    SECURE_COPY,
     STREAM,
     STREAM_FILE,
     REMOTE,
     COPY_REPLY,
+    SECURE_COPY_REPLY,
     STREAM_REPLY,
     REMOTE_REPLY,
     STREAM_FILE_REPLY,

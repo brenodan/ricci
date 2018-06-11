@@ -324,6 +324,7 @@ public class IntentSerialization {
 
         Bundle extras = new Bundle();
         extras.putSerializable("json", json.toString());
+        Log.d(TAG, json.toString());
 
         return extras;
     }
