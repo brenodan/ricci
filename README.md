@@ -33,9 +33,9 @@ remoteIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
 
 ## Authors
 
-* **Breno Dantas Cruz** - *Published work* 
-* [Programming Support for Data Intensive Distributed Mobile Applications at the Edge](http://people.cs.vt.edu/~bdantasc/papers/mobilesoftsrc18.pdf) 
-* [Intent to Share: Enhancing Android Inter-Component Communication for Distributed Devices] (http://people.cs.vt.edu/~tilevich/papers/ricci-mobilesoft18.pdf)
+* **Breno Dantas Cruz** - *RICCi's published work*: 
+** [Programming Support for Data Intensive Distributed Mobile Applications at the Edge](http://people.cs.vt.edu/~bdantasc/papers/mobilesoftsrc18.pdf) 
+** [Intent to Share: Enhancing Android Inter-Component Communication for Distributed Devices] (http://people.cs.vt.edu/~tilevich/papers/ricci-mobilesoft18.pdf)
 
 ## Acknowledgments
 
